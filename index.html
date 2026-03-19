@@ -28,6 +28,7 @@
                             dark: '#0F172A',       /* Slate 900 */
                             panel: '#1E293B',      /* Slate 800 */
                             border: '#334155',     /* Slate 700 */
+                            borderHl: '#475569',
                             emerald: '#10B981',    /* Money/Profit Green */
                             emeraldGlow: '#059669',
                             teal: '#06B6D4',       /* Secondary Accent */
@@ -36,16 +37,16 @@
                         }
                     },
                     animation: {
-                        'blob-bounce': 'blobBounce 10s infinite alternate',
-                        'marquee': 'marquee 25s linear infinite',
-                        'pulse-emerald': 'pulseEmerald 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-                        'slide-up-toast': 'slideUpToast 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'blob-bounce': 'blobBounce 15s infinite alternate',
+                        'marquee': 'marquee 35s linear infinite',
+                        'pulse-emerald': 'pulseEmerald 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'fade-up': 'fadeUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                     },
                     keyframes: {
                         blobBounce: {
                             '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '33%': { transform: 'translate(40px, -60px) scale(1.1)' },
+                            '66%': { transform: 'translate(-30px, 30px) scale(0.9)' },
                             '100%': { transform: 'translate(0px, 0px) scale(1)' },
                         },
                         marquee: {
@@ -53,11 +54,11 @@
                             '100%': { transform: 'translateX(-50%)' },
                         },
                         pulseEmerald: {
-                            '0%, 100%': { opacity: 0.1, transform: 'scale(1)' },
-                            '50%': { opacity: 0.3, transform: 'scale(1.05)', boxShadow: '0 0 40px rgba(16, 185, 129, 0.4)' },
+                            '0%, 100%': { opacity: 0.05, transform: 'scale(1)' },
+                            '50%': { opacity: 0.15, transform: 'scale(1.05)' },
                         },
-                        slideUpToast: {
-                            '0%': { opacity: 0, transform: 'translateY(100%)' },
+                        fadeUp: {
+                            '0%': { opacity: 0, transform: 'translateY(20px)' },
                             '100%': { opacity: 1, transform: 'translateY(0)' },
                         }
                     }
@@ -70,51 +71,66 @@
         body { background-color: #020617; color: #F8FAFC; overflow-x: hidden; }
         
         /* Glassmorphism Utilities */
-        .glass-panel { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .glass-card { background: linear-gradient(145deg, rgba(30, 41, 59, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); border: 1px solid rgba(16, 185, 129, 0.1); transition: all 0.3s ease; }
-        .glass-card:hover { border-color: rgba(16, 185, 129, 0.5); transform: translateY(-3px); box-shadow: 0 10px 40px rgba(16, 185, 129, 0.15); }
+        .glass-nav { background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(51, 65, 85, 0.5); }
+        .glass-card { background: linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6); border: 1px solid rgba(16, 185, 129, 0.15); transition: all 0.4s ease; }
+        .glass-card:hover { border-color: rgba(16, 185, 129, 0.5); transform: translateY(-4px); box-shadow: 0 15px 50px rgba(16, 185, 129, 0.2); }
         
         /* Typography Gradients */
         .text-gradient-emerald { background: linear-gradient(135deg, #34D399 0%, #10B981 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .text-gradient-teal { background: linear-gradient(135deg, #22D3EE 0%, #06B6D4 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
         /* Custom Buttons */
-        .btn-emerald { background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: #020617; position: relative; overflow: hidden; z-index: 1; transition: all 0.3s ease; }
-        .btn-emerald::after { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); transition: all 0.5s ease; z-index: -1; }
-        .btn-emerald:hover::after { left: 100%; }
-        .btn-emerald:hover { box-shadow: 0 0 25px rgba(16, 185, 129, 0.5); }
+        .btn-emerald { background: linear-gradient(135deg, #10B981 0%, #059669 100%); color: #020617; position: relative; overflow: hidden; z-index: 1; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); font-weight: 800; }
+        .btn-emerald::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transition: all 0.6s ease; z-index: -1; }
+        .btn-emerald:hover::before { left: 100%; }
+        .btn-emerald:hover { box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4); transform: translateY(-2px); }
+
+        .btn-outline { border: 1px solid rgba(16, 185, 129, 0.3); color: #F8FAFC; transition: all 0.3s ease; position: relative; overflow: hidden; }
+        .btn-outline:hover { border-color: #10B981; background: rgba(16, 185, 129, 0.05); box-shadow: 0 0 20px rgba(16, 185, 129, 0.1); }
         
         /* Topographic / Network Background */
         .bg-network {
-            background-image: radial-gradient(rgba(16, 185, 129, 0.1) 1px, transparent 1px);
-            background-size: 30px 30px;
+            background-image: 
+                radial-gradient(rgba(16, 185, 129, 0.15) 1px, transparent 1px),
+                radial-gradient(rgba(16, 185, 129, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px, 20px 20px;
+            background-position: 0 0, 20px 20px;
         }
 
         /* Scrollbars */
-        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #020617; }
-        ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 10px; border: 1px solid #020617; }
         ::-webkit-scrollbar-thumb:hover { background: #10B981; }
 
+        .discord-scroll::-webkit-scrollbar { width: 4px; }
+        .discord-scroll::-webkit-scrollbar-track { background: #1E293B; }
+        .discord-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+
         /* Range Slider Styling */
-        input[type=range] { -webkit-appearance: none; background: transparent; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: #10B981; cursor: pointer; margin-top: -8px; box-shadow: 0 0 10px rgba(16,185,129,0.5); }
+        input[type=range] { -webkit-appearance: none; background: transparent; width: 100%; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: #10B981; cursor: pointer; margin-top: -10px; box-shadow: 0 0 15px rgba(16,185,129,0.6); border: 2px solid #020617; }
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #334155; border-radius: 2px; }
+
+        /* Accordion transition */
+        .accordion-content { transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out; }
     </style>
 </head>
 <body class="antialiased selection:bg-paradise-emerald selection:text-paradise-midnight">
 
     <div x-data="{
             toasts: [
-                { user: 'HustleUK', item: 'Nike Dunk Low Panda', buy: '£89', sell: '£150', platform: 'StockX', time: 'Just now' },
-                { user: 'FlipMaster', item: 'PS5 Slim Error', buy: '£250', sell: '£400', platform: 'eBay', time: '2m ago' },
-                { user: 'SarahFlips', item: 'Zara Vintage Jacket', buy: '£5', sell: '£45', platform: 'Vinted', time: '5m ago' },
-                { user: 'TechArbitrage', item: 'Dyson Airwrap', buy: '£200', sell: '£350', platform: 'Facebook', time: '11m ago' }
+                { user: 'HustleUK', item: 'Nike Dunk Low Panda', buy: '£89', sell: '£150', platform: 'StockX', time: 'Just now', type: 'Sneakers' },
+                { user: 'FlipMaster', item: 'PS5 Slim Error', buy: '£250', sell: '£400', platform: 'eBay', time: '2m ago', type: 'Glitch' },
+                { user: 'SarahFlips', item: 'Zara Vintage Jacket', buy: '£5', sell: '£45', platform: 'Vinted', time: '5m ago', type: 'Vinted' },
+                { user: 'TechArbitrage', item: 'Dyson Airwrap', buy: '£200', sell: '£350', platform: 'Facebook', time: '11m ago', type: 'Retail' },
+                { user: 'TicketDon', item: 'Taylor Swift VIP', buy: '£150', sell: '£400', platform: 'Twickets', time: '14m ago', type: 'Tickets' },
+                { user: 'AmazonKing', item: 'Lego Star Wars Set', buy: '£45', sell: '£89', platform: 'FBA', time: '18m ago', type: 'Amazon' }
             ],
             currentIndex: 0,
             isVisible: false,
             init() {
-                setTimeout(() => { this.showToast() }, 4000);
+                setTimeout(() => { this.showToast() }, 3000);
             },
             showToast() {
                 this.isVisible = true;
@@ -123,59 +139,68 @@
                     setTimeout(() => {
                         this.currentIndex = (this.currentIndex + 1) % this.toasts.length;
                         this.showToast();
-                    }, Math.random() * 6000 + 4000); // Random interval 4-10s
-                }, 5000); // Toast stays for 5s
+                    }, Math.random() * 5000 + 3000); // Random interval 3-8s
+                }, 6000); // Toast stays for 6s
             }
         }" 
         class="fixed bottom-6 right-6 z-50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none"
-        :class="isVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'">
+        :class="isVisible ? 'translate-y-0 opacity-100' : 'translate-y-12 opacity-0'">
         
-        <div class="glass-panel p-4 rounded-xl border-l-4 border-paradise-emerald shadow-[0_0_30px_rgba(16,185,129,0.2)] flex items-start gap-4 min-w-[300px]">
-            <div class="bg-paradise-emerald/20 p-2 rounded-full mt-1">
-                <span class="text-xl">💸</span>
+        <div class="glass-panel p-5 rounded-2xl border-l-4 border-paradise-emerald shadow-[0_15px_40px_rgba(0,0,0,0.5)] flex items-start gap-4 min-w-[320px] backdrop-blur-3xl">
+            <div class="bg-paradise-emerald/20 p-3 rounded-xl mt-1 border border-paradise-emerald/30 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                <svg class="w-6 h-6 text-paradise-emerald" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
-            <div>
-                <div class="flex justify-between items-center gap-4 mb-1">
-                    <span class="text-xs font-bold text-paradise-text" x-text="toasts[currentIndex].user + ' flipped:'"></span>
-                    <span class="text-[10px] bg-paradise-border text-paradise-white px-2 py-0.5 rounded" x-text="toasts[currentIndex].platform"></span>
+            <div class="flex-1">
+                <div class="flex justify-between items-center gap-4 mb-2">
+                    <span class="text-xs font-bold text-paradise-text flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-paradise-emerald animate-pulse"></span>
+                        <span x-text="toasts[currentIndex].user"></span> flipped:
+                    </span>
+                    <span class="text-[9px] bg-paradise-border text-paradise-white px-2 py-0.5 rounded-sm uppercase tracking-widest font-bold" x-text="toasts[currentIndex].type"></span>
                 </div>
-                <p class="font-display font-bold text-white mb-2" x-text="toasts[currentIndex].item"></p>
-                <div class="flex items-center gap-3 text-sm">
-                    <span class="text-gray-400">Buy: <span class="text-white" x-text="toasts[currentIndex].buy"></span></span>
+                <p class="font-display font-bold text-white text-base mb-3 leading-tight" x-text="toasts[currentIndex].item"></p>
+                <div class="flex items-center gap-3 text-sm bg-paradise-dark p-2 rounded-lg border border-paradise-border">
+                    <span class="text-gray-400 text-xs">Buy: <span class="text-white font-bold" x-text="toasts[currentIndex].buy"></span></span>
                     <svg class="w-3 h-3 text-paradise-text" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                    <span class="text-gray-400">Sell: <span class="text-paradise-emerald font-bold" x-text="toasts[currentIndex].sell"></span></span>
+                    <span class="text-gray-400 text-xs">Sell: <span class="text-paradise-emerald font-bold" x-text="toasts[currentIndex].sell"></span></span>
                 </div>
-                <p class="text-[10px] text-gray-500 mt-2 text-right" x-text="toasts[currentIndex].time"></p>
             </div>
         </div>
     </div>
 
+    <div class="bg-gradient-to-r from-paradise-emerald to-paradise-teal text-paradise-midnight font-sans text-xs md:text-sm font-extrabold py-2.5 text-center relative z-50 tracking-wider uppercase">
+        <span class="inline-block w-2 h-2 rounded-full bg-paradise-midnight animate-pulse mr-2"></span>
+        Q1 European Vinted Bot is Live. Secure your Premium Membership today.
+    </div>
+
     <nav x-data="{ scrolled: false, mobileMenu: false }" 
          @scroll.window="scrolled = (window.pageYOffset > 20)" 
-         :class="{'glass-panel border-b border-paradise-border': scrolled, 'bg-transparent border-transparent': !scrolled}"
-         class="fixed w-full z-40 transition-all duration-300">
-        <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
+         :class="{'glass-nav shadow-2xl': scrolled, 'bg-transparent border-transparent': !scrolled}"
+         class="fixed w-full z-40 transition-all duration-300 top-[40px]">
+        <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-24">
                 
-                <div class="flex-shrink-0 flex items-center gap-3 cursor-pointer group">
-                    <div class="w-12 h-12 bg-paradise-panel rounded-xl flex items-center justify-center border border-paradise-border group-hover:border-paradise-emerald transition-colors shadow-lg">
-                        <svg class="w-7 h-7 text-paradise-emerald" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div class="flex-shrink-0 flex items-center gap-4 cursor-pointer group">
+                    <div class="w-12 h-12 bg-paradise-panel rounded-xl flex items-center justify-center border border-paradise-border group-hover:border-paradise-emerald transition-colors shadow-lg relative overflow-hidden">
+                        <div class="absolute inset-0 bg-paradise-emerald/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                        <svg class="w-7 h-7 text-paradise-emerald relative z-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
                     <div class="flex flex-col">
-                        <span class="font-display font-black text-2xl tracking-tight text-white leading-none">Resellers<span class="text-paradise-emerald">Paradise</span></span>
+                        <span class="font-display font-black text-2xl tracking-tight text-white leading-none uppercase">Resellers<span class="text-paradise-emerald">Paradise</span></span>
+                        <span class="font-sans text-[10px] text-paradise-text tracking-[0.2em] uppercase mt-1 font-bold">The Flipping Network</span>
                     </div>
                 </div>
                 
                 <div class="hidden lg:flex items-center space-x-10">
-                    <a href="#problem" class="font-sans text-sm font-bold text-paradise-text hover:text-white transition-colors tracking-wide">The Matrix</a>
-                    <a href="#calculator" class="font-sans text-sm font-bold text-paradise-text hover:text-white transition-colors tracking-wide">Profit Calculator</a>
-                    <a href="#features" class="font-sans text-sm font-bold text-paradise-text hover:text-white transition-colors tracking-wide">The Arsenal</a>
-                    <a href="#proof" class="font-sans text-sm font-bold text-paradise-text hover:text-white transition-colors tracking-wide">Member Wins</a>
+                    <a href="#problem" class="font-sans text-xs font-bold text-paradise-text hover:text-white transition-colors uppercase tracking-widest">The Matrix</a>
+                    <a href="#arsenal" class="font-sans text-xs font-bold text-paradise-text hover:text-white transition-colors uppercase tracking-widest">The Arsenal</a>
+                    <a href="#calculator" class="font-sans text-xs font-bold text-paradise-text hover:text-white transition-colors uppercase tracking-widest">Profit Simulator</a>
+                    <a href="#proof" class="font-sans text-xs font-bold text-paradise-text hover:text-white transition-colors uppercase tracking-widest">Member Wins</a>
                     
                     <div class="pl-8 border-l border-paradise-border flex items-center gap-6">
                         <div class="text-right hidden xl:block">
-                            <p class="font-display text-[10px] text-paradise-text uppercase tracking-widest font-bold">Premium Pass</p>
-                            <p class="font-bold text-white leading-none">£24.99 / mo</p>
+                            <p class="font-sans text-[9px] text-paradise-text uppercase tracking-[0.2em] font-bold">Premium Pass</p>
+                            <p class="font-bold text-white leading-none mt-1">£24.99 <span class="text-xs text-gray-500 font-normal">/ mo</span></p>
                         </div>
                         <a href="#pricing" class="btn-emerald font-display text-sm font-bold uppercase tracking-widest px-8 py-3.5 rounded-lg shadow-lg">
                             Gain Access
@@ -186,42 +211,62 @@
                 <div class="lg:hidden flex items-center">
                     <button @click="mobileMenu = !mobileMenu" class="text-white focus:outline-none">
                         <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path x-show="!mobileMenu" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                            <path x-show="mobileMenu" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" style="display: none;"/>
+                            <path x-show="!mobileMenu" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+                            <path x-show="mobileMenu" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" style="display: none;"/>
                         </svg>
                     </button>
                 </div>
             </div>
         </div>
 
-        <div x-show="mobileMenu" x-collapse class="lg:hidden bg-paradise-panel border-t border-paradise-border shadow-2xl absolute w-full">
-            <div class="px-6 pt-6 pb-8 space-y-4">
-                <a href="#problem" @click="mobileMenu = false" class="block font-display text-lg font-bold text-paradise-text hover:text-white border-b border-paradise-border pb-3">The Matrix</a>
-                <a href="#calculator" @click="mobileMenu = false" class="block font-display text-lg font-bold text-paradise-text hover:text-white border-b border-paradise-border pb-3">Profit Calculator</a>
-                <a href="#features" @click="mobileMenu = false" class="block font-display text-lg font-bold text-paradise-text hover:text-white border-b border-paradise-border pb-3">The Arsenal</a>
-                <a href="#pricing" @click="mobileMenu = false" class="block mt-8 text-center btn-emerald font-display font-bold text-sm uppercase tracking-widest py-4 rounded-lg">
+        <div x-show="mobileMenu" x-collapse class="lg:hidden bg-paradise-panel border-t border-paradise-border shadow-2xl absolute w-full h-screen">
+            <div class="px-6 pt-8 pb-12 space-y-4">
+                <a href="#problem" @click="mobileMenu = false" class="block font-sans text-sm font-bold text-paradise-text hover:text-white uppercase tracking-widest border-b border-paradise-border pb-4">The Matrix</a>
+                <a href="#arsenal" @click="mobileMenu = false" class="block font-sans text-sm font-bold text-paradise-text hover:text-white uppercase tracking-widest border-b border-paradise-border pb-4">The Arsenal</a>
+                <a href="#calculator" @click="mobileMenu = false" class="block font-sans text-sm font-bold text-paradise-text hover:text-white uppercase tracking-widest border-b border-paradise-border pb-4">Profit Simulator</a>
+                <a href="#proof" @click="mobileMenu = false" class="block font-sans text-sm font-bold text-paradise-text hover:text-white uppercase tracking-widest border-b border-paradise-border pb-4">Member Wins</a>
+                <a href="#pricing" @click="mobileMenu = false" class="block mt-10 text-center btn-emerald font-display font-bold text-sm uppercase tracking-widest py-4 rounded-lg">
                     Join Premium (£24.99)
                 </a>
             </div>
         </div>
     </nav>
 
-    <section class="relative pt-40 pb-24 lg:pt-52 lg:pb-32 overflow-hidden bg-network border-b border-paradise-border">
+    <div class="absolute top-[136px] left-0 w-full bg-paradise-panel py-3 border-b border-paradise-border overflow-hidden z-30 shadow-lg hidden md:block">
+        <div class="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-paradise-panel to-transparent z-10"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-paradise-panel to-transparent z-10"></div>
+        <div class="flex whitespace-nowrap animate-marquee items-center text-paradise-text font-sans font-bold uppercase tracking-[0.2em] text-[10px]">
+            <span class="mx-8 flex items-center gap-2 text-white">👟 SNEAKER DROPS</span> <span class="text-paradise-emerald">✦</span>
+            <span class="mx-8 flex items-center gap-2">🚨 PRICE GLITCHES</span> <span class="text-paradise-emerald">✦</span>
+            <span class="mx-8 flex items-center gap-2 text-white">🎫 TICKET RESELLING</span> <span class="text-paradise-emerald">✦</span>
+            <span class="mx-8 flex items-center gap-2">📦 AMAZON FBA LEADS</span> <span class="text-paradise-emerald">✦</span>
+            <span class="mx-8 flex items-center gap-2 text-white">👕 VINTED ARBITRAGE</span> <span class="text-paradise-emerald">✦</span>
+            <span class="mx-8 flex items-center gap-2">💻 TECH FLIPS</span> <span class="text-paradise-emerald">✦</span>
+            <span class="mx-8 flex items-center gap-2 text-white">👟 SNEAKER DROPS</span> <span class="text-paradise-emerald">✦</span>
+            <span class="mx-8 flex items-center gap-2">🚨 PRICE GLITCHES</span> <span class="text-paradise-emerald">✦</span>
+            <span class="mx-8 flex items-center gap-2 text-white">🎫 TICKET RESELLING</span> <span class="text-paradise-emerald">✦</span>
+            <span class="mx-8 flex items-center gap-2">📦 AMAZON FBA LEADS</span> <span class="text-paradise-emerald">✦</span>
+            <span class="mx-8 flex items-center gap-2 text-white">👕 VINTED ARBITRAGE</span> <span class="text-paradise-emerald">✦</span>
+            <span class="mx-8 flex items-center gap-2">💻 TECH FLIPS</span>
+        </div>
+    </div>
+
+    <section class="relative pt-44 pb-28 lg:pt-60 lg:pb-36 overflow-hidden bg-network border-b border-paradise-border">
         <div class="absolute inset-0 z-0 pointer-events-none">
-            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-paradise-emerald/20 rounded-full blur-[120px] animate-blob-bounce"></div>
-            <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-paradise-teal/10 rounded-full blur-[150px] animate-blob-bounce" style="animation-delay: 2s;"></div>
-            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-paradise-midnight/80 to-paradise-midnight"></div>
+            <div class="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-paradise-emerald/10 rounded-full blur-[150px] animate-pulse-emerald"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-[800px] h-[800px] bg-paradise-teal/5 rounded-full blur-[150px]" style="animation-delay: 2s;"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-paradise-midnight/50 to-paradise-midnight"></div>
         </div>
         
-        <div class="relative z-10 max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-16 items-center">
+        <div class="relative z-10 max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-16 items-center">
             
-            <div class="lg:col-span-7 text-center lg:text-left">
-                <div class="inline-flex items-center justify-center lg:justify-start gap-2 px-4 py-2 rounded-full border border-paradise-emerald/30 bg-paradise-emerald/10 font-sans text-xs font-bold text-paradise-emerald mb-8 tracking-widest uppercase backdrop-blur-md shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+            <div class="lg:col-span-6 text-center lg:text-left animate-fade-up">
+                <div class="inline-flex items-center justify-center lg:justify-start gap-3 px-5 py-2.5 rounded-full border border-paradise-emerald/30 bg-paradise-emerald/10 font-sans text-xs font-bold text-paradise-emerald mb-10 tracking-widest uppercase backdrop-blur-md shadow-[0_0_20px_rgba(16,185,129,0.15)]">
                     <span class="w-2 h-2 rounded-full bg-paradise-emerald animate-pulse"></span>
                     The UK's #1 Arbitrage Network
                 </div>
                 
-                <h1 class="text-5xl md:text-6xl lg:text-7xl font-display font-black mb-6 leading-[1.1] tracking-tight">
+                <h1 class="text-5xl md:text-7xl lg:text-[5.5rem] font-display font-black mb-8 leading-[1.05] tracking-tight text-white drop-shadow-2xl">
                     Turn Your Phone <br>Into A <span class="text-gradient-emerald">Money Printer.</span>
                 </h1>
                 
@@ -229,16 +274,16 @@
                     Stop gambling on crypto. Stop losing money on dropshipping ads. Reselling is the most guaranteed side-hustle on earth: Buy low. Sell high. Keep the profit. We give you the exact leads to buy.
                 </p>
                 
-                <div class="mt-10 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
-                    <a href="#pricing" class="inline-flex items-center justify-center px-10 py-5 text-sm font-display font-bold uppercase tracking-widest rounded-lg btn-emerald">
+                <div class="mt-12 flex flex-col sm:flex-row justify-center lg:justify-start gap-5">
+                    <a href="#pricing" class="inline-flex items-center justify-center px-12 py-5 text-sm font-sans font-bold uppercase tracking-widest rounded-lg btn-emerald shadow-2xl">
                         Access Premium (£24.99)
                     </a>
-                    <a href="#features" class="inline-flex items-center justify-center px-10 py-5 text-sm font-display font-bold uppercase tracking-widest rounded-lg text-white bg-paradise-panel border border-paradise-border hover:bg-paradise-border transition-all">
-                        See What's Inside
+                    <a href="#arsenal" class="inline-flex items-center justify-center px-12 py-5 text-sm font-sans font-bold uppercase tracking-widest rounded-lg text-white btn-outline">
+                        See The Infrastructure
                     </a>
                 </div>
                 
-                <div class="mt-12 flex flex-wrap justify-center lg:justify-start gap-6 font-sans text-sm text-paradise-text font-semibold">
+                <div class="mt-14 pt-8 border-t border-paradise-border flex flex-wrap justify-center lg:justify-start gap-8 font-sans text-[10px] text-paradise-text font-bold uppercase tracking-[0.2em]">
                     <div class="flex items-center gap-2">
                         <svg class="w-5 h-5 text-paradise-emerald" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                         Cancel Anytime
@@ -254,50 +299,124 @@
                 </div>
             </div>
 
-            <div class="lg:col-span-5 relative hidden lg:block">
-                <div class="absolute inset-0 bg-gradient-to-tr from-paradise-emerald/20 to-paradise-teal/20 rounded-2xl transform rotate-3 blur-2xl"></div>
+            <div class="lg:col-span-6 relative hidden lg:block animate-fade-up" style="animation-delay: 0.2s;">
+                <div class="absolute inset-0 bg-gradient-to-tr from-paradise-emerald/20 to-paradise-teal/10 rounded-2xl transform rotate-2 blur-3xl"></div>
                 
-                <div class="glass-card rounded-2xl p-6 relative z-10 w-full h-[500px] flex flex-col">
-                    <div class="flex justify-between items-center border-b border-paradise-border pb-4 mb-6">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 bg-paradise-panel rounded flex items-center justify-center">
-                                <svg class="w-5 h-5 text-paradise-text" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                            </div>
-                            <h4 class="font-display font-bold text-white">Live Ping Feed</h4>
+                <div class="glass-card rounded-2xl p-2 relative z-10 w-full h-[600px] flex flex-col shadow-[0_30px_60px_rgba(0,0,0,0.8)] border border-paradise-border">
+                    
+                    <div class="flex justify-between items-center bg-paradise-panel border-b border-paradise-borderHl px-4 py-3 rounded-t-xl">
+                        <div class="flex gap-2">
+                            <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
                         </div>
-                        <span class="bg-paradise-emerald/20 text-paradise-emerald text-[10px] font-bold px-2 py-1 rounded uppercase tracking-widest">Connected</span>
+                        <div class="flex items-center gap-2 font-mono text-[10px] text-paradise-text uppercase tracking-widest font-bold">
+                            <svg class="w-4 h-4 text-paradise-emerald" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                            Live Resellers Paradise Feed
+                        </div>
+                        <span class="bg-paradise-emerald/10 border border-paradise-emerald/30 text-paradise-emerald text-[9px] font-bold px-2 py-1 rounded-sm uppercase tracking-widest flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 bg-paradise-emerald rounded-full animate-pulse"></span> Connected
+                        </span>
                     </div>
                     
-                    <div class="flex-1 overflow-hidden space-y-4 relative">
-                        <div class="bg-paradise-panel border border-paradise-border rounded-lg p-4">
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="bg-red-500/20 text-red-400 text-[10px] font-bold px-2 py-1 rounded uppercase">Price Error</span>
-                                <span class="text-[10px] text-paradise-text">1m ago</span>
-                            </div>
-                            <h5 class="font-bold text-white text-sm mb-1">Samsung 4K Monitor - Argos</h5>
-                            <p class="text-xs text-gray-400 mb-3">RRP: £399 | Glitch Price: <span class="text-paradise-emerald font-bold">£120</span></p>
-                            <button class="w-full bg-paradise-border hover:bg-paradise-text text-white text-xs font-bold py-2 rounded transition-colors">Checkout Link</button>
-                        </div>
+                    <div class="flex flex-1 overflow-hidden bg-paradise-midnight rounded-b-xl">
                         
-                        <div class="bg-paradise-panel border border-paradise-border rounded-lg p-4">
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="bg-blue-500/20 text-blue-400 text-[10px] font-bold px-2 py-1 rounded uppercase">Sneaker Drop</span>
-                                <span class="text-[10px] text-paradise-text">4m ago</span>
+                        <div class="w-48 border-r border-paradise-border bg-paradise-panel/30 p-3 hidden sm:flex flex-col gap-4">
+                            <div>
+                                <p class="text-[9px] font-bold text-paradise-borderHl uppercase tracking-widest mb-2 px-2">Monitors</p>
+                                <div class="space-y-1">
+                                    <div class="bg-paradise-panel px-2 py-1.5 rounded text-xs text-white font-bold cursor-pointer border-l-2 border-paradise-emerald">🚨 Price-Glitches</div>
+                                    <div class="px-2 py-1.5 rounded text-xs text-paradise-text hover:bg-paradise-panel hover:text-white cursor-pointer transition-colors">👕 Vinted-Underpriced</div>
+                                    <div class="px-2 py-1.5 rounded text-xs text-paradise-text hover:bg-paradise-panel hover:text-white cursor-pointer transition-colors">👟 Sneaker-Releases</div>
+                                    <div class="px-2 py-1.5 rounded text-xs text-paradise-text hover:bg-paradise-panel hover:text-white cursor-pointer transition-colors">🎫 Ticket-Presales</div>
+                                    <div class="px-2 py-1.5 rounded text-xs text-paradise-text hover:bg-paradise-panel hover:text-white cursor-pointer transition-colors">📦 Amazon-FBA-Leads</div>
+                                </div>
                             </div>
-                            <h5 class="font-bold text-white text-sm mb-1">Nike Dunk Low 'Panda' Restock</h5>
-                            <p class="text-xs text-gray-400 mb-3">Retail: £99 | Resell: <span class="text-paradise-emerald font-bold">£160</span></p>
-                            <button class="w-full bg-paradise-border hover:bg-paradise-text text-white text-xs font-bold py-2 rounded transition-colors">Checkout Link</button>
-                        </div>
-                        
-                        <div class="bg-paradise-panel border border-paradise-border rounded-lg p-4 opacity-50">
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="bg-purple-500/20 text-purple-400 text-[10px] font-bold px-2 py-1 rounded uppercase">Ticket Flip</span>
-                                <span class="text-[10px] text-paradise-text">12m ago</span>
+                            <div>
+                                <p class="text-[9px] font-bold text-paradise-borderHl uppercase tracking-widest mb-2 px-2">Community</p>
+                                <div class="space-y-1">
+                                    <div class="px-2 py-1.5 rounded text-xs text-paradise-text hover:bg-paradise-panel hover:text-white cursor-pointer transition-colors">💬 General-Chat</div>
+                                    <div class="px-2 py-1.5 rounded text-xs text-paradise-text hover:bg-paradise-panel hover:text-white cursor-pointer transition-colors">💰 Success-Screenshots</div>
+                                    <div class="px-2 py-1.5 rounded text-xs text-paradise-text hover:bg-paradise-panel hover:text-white cursor-pointer transition-colors">🤝 WTS-Marketplace</div>
+                                </div>
                             </div>
-                            <h5 class="font-bold text-white text-sm mb-1">Coldplay Wembley Presale</h5>
                         </div>
-                        
-                        <div class="absolute bottom-0 left-0 w-full h-16 bg-gradient-to-t from-paradise-dark to-transparent"></div>
+
+                        <div class="flex-1 p-4 relative overflow-hidden flex flex-col">
+                            <div class="border-b border-paradise-border pb-3 mb-4 flex justify-between items-center">
+                                <h3 class="text-white font-bold flex items-center gap-2"><span class="text-paradise-text">#</span> price-glitches</h3>
+                                <span class="text-[10px] text-paradise-text border border-paradise-border px-2 py-1 rounded">Auto-refreshing...</span>
+                            </div>
+                            
+                            <div class="flex-1 overflow-y-auto discord-scroll space-y-5 pb-20">
+                                
+                                <div class="flex gap-3">
+                                    <div class="w-8 h-8 rounded bg-paradise-emerald/20 flex-shrink-0 flex items-center justify-center border border-paradise-emerald/50">
+                                        <span class="text-xs">🤖</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-baseline gap-2 mb-1">
+                                            <span class="font-bold text-paradise-emerald text-sm">ArgosMonitor</span>
+                                            <span class="text-[9px] bg-paradise-emerald/20 text-paradise-emerald px-1 py-0.5 rounded uppercase font-bold tracking-wider">BOT</span>
+                                            <span class="text-[10px] text-paradise-text">Today at 10:42 AM</span>
+                                        </div>
+                                        <div class="bg-paradise-panel border-l-2 border-red-500 rounded p-3 mt-1 shadow-md max-w-sm">
+                                            <div class="flex justify-between items-start mb-2">
+                                                <h5 class="font-bold text-white text-sm">Samsung 55" 4K Smart TV</h5>
+                                                <span class="text-[9px] bg-red-500/20 text-red-400 px-2 py-0.5 rounded font-bold uppercase">Price Error</span>
+                                            </div>
+                                            <div class="grid grid-cols-2 gap-2 text-xs mb-3 bg-paradise-midnight p-2 rounded border border-paradise-border">
+                                                <div><span class="text-gray-500">RRP:</span> <span class="text-gray-300 line-through">£499.00</span></div>
+                                                <div><span class="text-gray-500">Glitch:</span> <span class="text-paradise-emerald font-bold text-sm">£149.00</span></div>
+                                                <div class="col-span-2 border-t border-paradise-border pt-1 mt-1"><span class="text-gray-500">Est. Profit:</span> <span class="text-white font-bold">£300+</span></div>
+                                            </div>
+                                            <button class="w-full bg-paradise-borderHl hover:bg-white hover:text-black text-white text-xs font-bold py-2 rounded transition-colors">Checkout Link</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex gap-3">
+                                    <div class="w-8 h-8 rounded bg-paradise-teal/20 flex-shrink-0 flex items-center justify-center border border-paradise-teal/50">
+                                        <span class="text-xs">🤖</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-baseline gap-2 mb-1">
+                                            <span class="font-bold text-paradise-teal text-sm">VintedScraper</span>
+                                            <span class="text-[9px] bg-paradise-teal/20 text-paradise-teal px-1 py-0.5 rounded uppercase font-bold tracking-wider">BOT</span>
+                                            <span class="text-[10px] text-paradise-text">Today at 10:45 AM</span>
+                                        </div>
+                                        <div class="bg-paradise-panel border-l-2 border-paradise-teal rounded p-3 mt-1 shadow-md max-w-sm">
+                                            <div class="flex justify-between items-start mb-2">
+                                                <h5 class="font-bold text-white text-sm">Vintage Arcteryx Nuptse 700</h5>
+                                                <span class="text-[9px] bg-paradise-teal/20 text-paradise-teal px-2 py-0.5 rounded font-bold uppercase">Underpriced</span>
+                                            </div>
+                                            <div class="grid grid-cols-2 gap-2 text-xs mb-3 bg-paradise-midnight p-2 rounded border border-paradise-border">
+                                                <div><span class="text-gray-500">Listed For:</span> <span class="text-white font-bold text-sm">£45.00</span></div>
+                                                <div><span class="text-gray-500">Market Val:</span> <span class="text-paradise-emerald font-bold text-sm">£180.00</span></div>
+                                                <div class="col-span-2 text-[10px] text-gray-500 mt-1">Listed 30 seconds ago. Be fast.</div>
+                                            </div>
+                                            <button class="w-full bg-paradise-teal hover:bg-white hover:text-black text-black text-xs font-bold py-2 rounded transition-colors">Buy on Vinted</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex gap-3">
+                                    <div class="w-8 h-8 rounded bg-purple-500/20 flex-shrink-0 flex items-center justify-center border border-purple-500/50">
+                                        <span class="text-xs font-bold text-purple-300">JP</span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-baseline gap-2 mb-1">
+                                            <span class="font-bold text-white text-sm">James (Admin)</span>
+                                            <span class="text-[10px] text-paradise-text">Today at 10:48 AM</span>
+                                        </div>
+                                        <p class="text-sm text-gray-300 mt-1">That TV is already OOS (Out of Stock). Hope some of you cooked! Next ping incoming shortly, keep notifications on.</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            
+                            <div class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-paradise-midnight to-transparent pointer-events-none"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -305,76 +424,61 @@
         </div>
     </section>
 
-    <div class="bg-paradise-panel py-4 border-y border-paradise-border overflow-hidden relative">
-        <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-paradise-panel to-transparent z-10"></div>
-        <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-paradise-panel to-transparent z-10"></div>
-        <div class="flex whitespace-nowrap animate-marquee items-center text-paradise-text font-display font-bold uppercase tracking-widest text-sm">
-            <span class="mx-8 flex items-center gap-2">👟 SNEAKER DROPS</span> <span class="text-paradise-emerald">✦</span>
-            <span class="mx-8 flex items-center gap-2">🚨 PRICE GLITCHES</span> <span class="text-paradise-emerald">✦</span>
-            <span class="mx-8 flex items-center gap-2">🎫 TICKET RESELLING</span> <span class="text-paradise-emerald">✦</span>
-            <span class="mx-8 flex items-center gap-2">📦 AMAZON FBA LEADS</span> <span class="text-paradise-emerald">✦</span>
-            <span class="mx-8 flex items-center gap-2">👕 VINTED ARBITRAGE</span> <span class="text-paradise-emerald">✦</span>
-            <span class="mx-8 flex items-center gap-2">👟 SNEAKER DROPS</span> <span class="text-paradise-emerald">✦</span>
-            <span class="mx-8 flex items-center gap-2">🚨 PRICE GLITCHES</span> <span class="text-paradise-emerald">✦</span>
-            <span class="mx-8 flex items-center gap-2">🎫 TICKET RESELLING</span> <span class="text-paradise-emerald">✦</span>
-            <span class="mx-8 flex items-center gap-2">📦 AMAZON FBA LEADS</span> <span class="text-paradise-emerald">✦</span>
-            <span class="mx-8 flex items-center gap-2">👕 VINTED ARBITRAGE</span>
-        </div>
-    </div>
-
-    <section id="problem" class="py-24 bg-paradise-midnight relative">
-        <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-4xl mx-auto mb-20">
-                <h2 class="font-sans text-sm font-bold text-paradise-emerald tracking-widest uppercase mb-4">The Truth About Making Money Online</h2>
-                <h3 class="text-4xl md:text-5xl font-display font-black mb-6 text-white">Why 95% of "Side Hustles" <span class="text-gray-600 line-through">Fail.</span></h3>
-                <p class="text-lg text-paradise-text leading-relaxed">The internet is full of fake gurus selling you dreams. Let's look at the math behind why Reselling is the only logical choice for beginners.</p>
+    <section id="problem" class="py-32 bg-paradise-panel relative border-b border-paradise-border overflow-hidden">
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2000')] bg-cover bg-center opacity-[0.03] mix-blend-luminosity"></div>
+        
+        <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center max-w-4xl mx-auto mb-24">
+                <h2 class="font-sans text-xs font-bold text-paradise-emerald tracking-[0.3em] uppercase mb-4">The Brutal Reality</h2>
+                <h3 class="text-4xl md:text-5xl lg:text-6xl font-display font-black mb-6 text-white leading-tight">Why 95% of "Side Hustles" <br><span class="text-paradise-borderHl line-through">Fail Completely.</span></h3>
+                <p class="text-lg text-gray-400 leading-relaxed font-medium">The internet is full of fake gurus selling you pipe dreams. Let's look at the mathematical reality behind why Arbitrage (Reselling) is the only logical choice for beginners with limited capital.</p>
             </div>
 
-            <div class="grid lg:grid-cols-3 gap-6">
+            <div class="grid lg:grid-cols-3 gap-8">
                 
-                <div class="bg-paradise-panel border border-paradise-border rounded-2xl p-8 relative opacity-70">
-                    <div class="w-12 h-12 bg-red-500/10 text-red-500 rounded-lg flex items-center justify-center mb-6">
-                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <div class="bg-paradise-midnight border border-paradise-border rounded-2xl p-10 relative opacity-80 hover:opacity-100 transition-opacity">
+                    <div class="w-14 h-14 bg-red-500/10 text-red-500 rounded-xl flex items-center justify-center mb-8 border border-red-500/20">
+                        <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
-                    <h4 class="font-display font-bold text-xl text-white mb-2">Dropshipping</h4>
-                    <p class="text-sm text-paradise-text mb-6">Selling cheap products from China with Facebook ads.</p>
-                    <ul class="space-y-4 text-sm text-gray-400">
-                        <li class="flex items-center gap-3"><span class="text-red-500 font-bold">✗</span> Requires £2k+ in Ad Spend to test.</li>
-                        <li class="flex items-center gap-3"><span class="text-red-500 font-bold">✗</span> 3-week shipping times anger customers.</li>
-                        <li class="flex items-center gap-3"><span class="text-red-500 font-bold">✗</span> Payment processors ban you easily.</li>
-                        <li class="flex items-center gap-3"><span class="text-red-500 font-bold">✗</span> Profit margins eaten by Zuckerberg.</li>
+                    <h4 class="font-display font-bold text-2xl text-white mb-3">Dropshipping</h4>
+                    <p class="text-sm text-gray-500 mb-8 leading-relaxed">Selling cheap products from China using Facebook or TikTok ads.</p>
+                    <ul class="space-y-5 text-sm text-gray-400">
+                        <li class="flex items-start gap-4"><span class="text-red-500 font-bold mt-0.5">✗</span> <span>Requires <strong class="text-white">£2k+ in Ad Spend</strong> just to test products.</span></li>
+                        <li class="flex items-start gap-4"><span class="text-red-500 font-bold mt-0.5">✗</span> <span>3-week shipping times lead to chargebacks and angry customers.</span></li>
+                        <li class="flex items-start gap-4"><span class="text-red-500 font-bold mt-0.5">✗</span> <span>Payment processors (Stripe/PayPal) will freeze your funds.</span></li>
+                        <li class="flex items-start gap-4"><span class="text-red-500 font-bold mt-0.5">✗</span> <span>Profit margins are entirely eaten by Mark Zuckerberg's ad costs.</span></li>
                     </ul>
                 </div>
 
-                <div class="bg-paradise-panel border border-paradise-border rounded-2xl p-8 relative opacity-70">
-                    <div class="w-12 h-12 bg-orange-500/10 text-orange-500 rounded-lg flex items-center justify-center mb-6">
-                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                <div class="bg-paradise-midnight border border-paradise-border rounded-2xl p-10 relative opacity-80 hover:opacity-100 transition-opacity">
+                    <div class="w-14 h-14 bg-orange-500/10 text-orange-500 rounded-xl flex items-center justify-center mb-8 border border-orange-500/20">
+                        <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
                     </div>
-                    <h4 class="font-display font-bold text-xl text-white mb-2">Crypto / Forex Trading</h4>
-                    <p class="text-sm text-paradise-text mb-6">Gambling on lines moving up or down.</p>
-                    <ul class="space-y-4 text-sm text-gray-400">
-                        <li class="flex items-center gap-3"><span class="text-orange-500 font-bold">✗</span> You can lose more than you invest.</li>
-                        <li class="flex items-center gap-3"><span class="text-orange-500 font-bold">✗</span> Takes years to learn technical analysis.</li>
-                        <li class="flex items-center gap-3"><span class="text-orange-500 font-bold">✗</span> Highly emotional and stressful.</li>
-                        <li class="flex items-center gap-3"><span class="text-orange-500 font-bold">✗</span> 95% of retail traders lose their capital.</li>
+                    <h4 class="font-display font-bold text-2xl text-white mb-3">Crypto / Forex Trading</h4>
+                    <p class="text-sm text-gray-500 mb-8 leading-relaxed">Gambling on institutional lines moving up or down.</p>
+                    <ul class="space-y-5 text-sm text-gray-400">
+                        <li class="flex items-start gap-4"><span class="text-orange-500 font-bold mt-0.5">✗</span> <span>You can physically <strong class="text-white">lose more than you invest</strong> via leverage.</span></li>
+                        <li class="flex items-start gap-4"><span class="text-orange-500 font-bold mt-0.5">✗</span> <span>Takes years of screen time to learn real technical analysis.</span></li>
+                        <li class="flex items-start gap-4"><span class="text-orange-500 font-bold mt-0.5">✗</span> <span>Highly emotional. Destroys your mental health.</span></li>
+                        <li class="flex items-start gap-4"><span class="text-orange-500 font-bold mt-0.5">✗</span> <span>95% of retail traders act as exit liquidity for hedge funds.</span></li>
                     </ul>
                 </div>
 
-                <div class="glass-card rounded-2xl p-8 relative transform lg:-translate-y-4 border-2 border-paradise-emerald shadow-[0_0_40px_rgba(16,185,129,0.15)]">
-                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-paradise-emerald text-paradise-midnight font-bold px-4 py-1 rounded text-xs uppercase tracking-widest whitespace-nowrap shadow-lg">
-                        The Smart Way
+                <div class="glass-card rounded-2xl p-10 relative transform lg:-translate-y-6 border-2 border-paradise-emerald shadow-[0_0_60px_rgba(16,185,129,0.15)] z-10">
+                    <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-paradise-emerald text-paradise-midnight font-bold px-6 py-2 rounded-md text-xs uppercase tracking-widest whitespace-nowrap shadow-xl">
+                        The Logical Path
                     </div>
-                    <div class="w-12 h-12 bg-paradise-emerald/20 text-paradise-emerald rounded-lg flex items-center justify-center mb-6">
-                        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <div class="w-14 h-14 bg-paradise-emerald/20 text-paradise-emerald rounded-xl flex items-center justify-center mb-8 border border-paradise-emerald/30 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                        <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     </div>
-                    <h4 class="font-display font-bold text-2xl text-white mb-2">Arbitrage & Flipping</h4>
-                    <p class="text-sm text-paradise-emerald font-bold mb-6">Buying physical demand. Selling for profit.</p>
-                    <ul class="space-y-4 text-sm text-gray-300">
-                        <li class="flex items-center gap-3"><span class="text-paradise-emerald font-bold">✓</span> Start with literally £50 in your bank.</li>
-                        <li class="flex items-center gap-3"><span class="text-paradise-emerald font-bold">✓</span> Zero ad spend. Platforms bring the buyers.</li>
-                        <li class="flex items-center gap-3"><span class="text-paradise-emerald font-bold">✓</span> You own a physical asset. Zero risk of going to 0.</li>
-                        <li class="flex items-center gap-3"><span class="text-paradise-emerald font-bold">✓</span> Guaranteed demand (Nike, Sony, Apple).</li>
-                        <li class="flex items-center gap-3"><span class="text-paradise-emerald font-bold">✓</span> Immediate cash flow. Cash out same day.</li>
+                    <h4 class="font-display font-bold text-3xl text-white mb-3">Arbitrage (Flipping)</h4>
+                    <p class="text-sm text-paradise-emerald font-bold mb-8 uppercase tracking-wide">Buying physical demand. Selling for pure profit.</p>
+                    <ul class="space-y-5 text-sm text-gray-300">
+                        <li class="flex items-start gap-4"><span class="text-paradise-emerald font-black mt-0.5">✓</span> <span>Start with literally <strong class="text-white">£50 in your bank account</strong>.</span></li>
+                        <li class="flex items-start gap-4"><span class="text-paradise-emerald font-black mt-0.5">✓</span> <span>Zero ad spend. eBay, StockX, and Amazon bring the buyers to you.</span></li>
+                        <li class="flex items-start gap-4"><span class="text-paradise-emerald font-black mt-0.5">✓</span> <span>You own a physical asset. Zero risk of an investment "going to zero."</span></li>
+                        <li class="flex items-start gap-4"><span class="text-paradise-emerald font-black mt-0.5">✓</span> <span>Guaranteed demand (Selling Nike, Sony, Apple, not generic junk).</span></li>
+                        <li class="flex items-start gap-4"><span class="text-paradise-emerald font-black mt-0.5">✓</span> <span>Immediate cash flow. Buy today, sell tomorrow, cash out.</span></li>
                     </ul>
                 </div>
 
@@ -382,71 +486,160 @@
         </div>
     </section>
 
-    <section id="calculator" class="py-24 bg-paradise-panel border-y border-paradise-border relative" x-data="{ 
+    <section id="arsenal" class="py-32 bg-paradise-midnight relative border-b border-paradise-border">
+        <div class="absolute inset-0 bg-network opacity-50 pointer-events-none"></div>
+        <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-24">
+                <h2 class="font-sans text-xs font-bold text-paradise-emerald tracking-widest uppercase mb-4">The Infrastructure</h2>
+                <h3 class="text-4xl md:text-5xl lg:text-6xl font-display font-black text-white mb-6">Inside The <span class="text-gradient-teal">Paradise.</span></h3>
+                <p class="text-xl text-paradise-text max-w-2xl mx-auto leading-relaxed">We provide the algorithmic leads, the un-gating tools, and the buyer networks. You just click buy and collect the margin.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-paradise-panel border border-paradise-border p-10 rounded-2xl hover:border-paradise-emerald transition-all duration-500 group shadow-lg hover:shadow-[0_10px_40px_rgba(16,185,129,0.1)]">
+                    <div class="w-16 h-16 bg-paradise-dark rounded-xl flex items-center justify-center border border-paradise-border mb-8 group-hover:scale-110 transition-transform duration-500 shadow-inner">
+                        <span class="text-3xl">👟</span>
+                    </div>
+                    <h4 class="text-2xl font-display font-bold text-white mb-4">Sneaker & Streetwear Drops</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Get exact release times, direct ATC (add to cart) links, and internal stock numbers for hyped Nike, Jordan, and Yeezy drops.</p>
+                    <ul class="text-xs text-gray-500 space-y-2 font-medium">
+                        <li class="flex gap-2"><span class="text-paradise-emerald">✓</span> Size-specific profit margins</li>
+                        <li class="flex gap-2"><span class="text-paradise-emerald">✓</span> SNKRS app bypass methods</li>
+                    </ul>
+                </div>
+
+                <div class="bg-paradise-panel border border-paradise-border p-10 rounded-2xl hover:border-paradise-teal transition-all duration-500 group shadow-lg hover:shadow-[0_10px_40px_rgba(6,182,212,0.1)] transform md:-translate-y-4">
+                    <div class="w-16 h-16 bg-paradise-dark rounded-xl flex items-center justify-center border border-paradise-border mb-8 group-hover:scale-110 transition-transform duration-500 shadow-inner">
+                        <span class="text-3xl">🚨</span>
+                    </div>
+                    <h4 class="text-2xl font-display font-bold text-white mb-4">Price Errors & Glitches</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Retailers make coding mistakes. Our custom algorithms scrape Amazon, Argos, Currys, and John Lewis 24/7. When a £500 TV is listed for £50, your phone buzzes immediately.</p>
+                    <ul class="text-xs text-gray-500 space-y-2 font-medium">
+                        <li class="flex gap-2"><span class="text-paradise-teal">✓</span> Sub-1 second latency pings</li>
+                        <li class="flex gap-2"><span class="text-paradise-teal">✓</span> Auto-checkout setup guides</li>
+                    </ul>
+                </div>
+
+                <div class="bg-paradise-panel border border-paradise-border p-10 rounded-2xl hover:border-paradise-emerald transition-all duration-500 group shadow-lg hover:shadow-[0_10px_40px_rgba(16,185,129,0.1)]">
+                    <div class="w-16 h-16 bg-paradise-dark rounded-xl flex items-center justify-center border border-paradise-border mb-8 group-hover:scale-110 transition-transform duration-500 shadow-inner">
+                        <span class="text-3xl">🎫</span>
+                    </div>
+                    <h4 class="text-2xl font-display font-bold text-white mb-4">Ticket & Event Flips</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Concerts, sports, and exclusive events. We provide private presale codes, Ticketmaster queue-bypassing techniques, and the exact platforms to safely resell for 200%+ ROI.</p>
+                    <ul class="text-xs text-gray-500 space-y-2 font-medium">
+                        <li class="flex gap-2"><span class="text-paradise-emerald">✓</span> O2 / LiveNation Presales</li>
+                        <li class="flex gap-2"><span class="text-paradise-emerald">✓</span> Safe Twickets/Viagogo routing</li>
+                    </ul>
+                </div>
+
+                <div class="bg-paradise-panel border border-paradise-border p-10 rounded-2xl hover:border-paradise-teal transition-all duration-500 group shadow-lg hover:shadow-[0_10px_40px_rgba(6,182,212,0.1)]">
+                    <div class="w-16 h-16 bg-paradise-dark rounded-xl flex items-center justify-center border border-paradise-border mb-8 group-hover:scale-110 transition-transform duration-500 shadow-inner">
+                        <span class="text-3xl">📦</span>
+                    </div>
+                    <h4 class="text-2xl font-display font-bold text-white mb-4">Amazon FBA Leads</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Want to build passive income? We post daily Online Arbitrage (OA) leads that you can buy and ship directly to Amazon FBA warehouses. Let Jeff Bezos do the shipping and customer service.</p>
+                    <ul class="text-xs text-gray-500 space-y-2 font-medium">
+                        <li class="flex gap-2"><span class="text-paradise-teal">✓</span> Minimum 30% ROI guaranteed leads</li>
+                        <li class="flex gap-2"><span class="text-paradise-teal">✓</span> Ungating guides for gated brands</li>
+                    </ul>
+                </div>
+
+                <div class="bg-paradise-panel border border-paradise-border p-10 rounded-2xl hover:border-paradise-emerald transition-all duration-500 group shadow-lg hover:shadow-[0_10px_40px_rgba(16,185,129,0.1)] transform md:-translate-y-4">
+                    <div class="w-16 h-16 bg-paradise-dark rounded-xl flex items-center justify-center border border-paradise-border mb-8 group-hover:scale-110 transition-transform duration-500 shadow-inner">
+                        <span class="text-3xl">👕</span>
+                    </div>
+                    <h4 class="text-2xl font-display font-bold text-white mb-4">Vinted & Depop Bot</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Our fastest growing sector. Get notified the exact second underpriced designer gear (Corteiz, Ralph Lauren, Stone Island, Nike) is listed on Vinted. Buy it instantly, flip it on eBay for double.</p>
+                    <ul class="text-xs text-gray-500 space-y-2 font-medium">
+                        <li class="flex gap-2"><span class="text-paradise-emerald">✓</span> Zero seller fees on Vinted</li>
+                        <li class="flex gap-2"><span class="text-paradise-emerald">✓</span> Automated keyword scraping</li>
+                    </ul>
+                </div>
+
+                <div class="bg-paradise-panel border border-paradise-border p-10 rounded-2xl hover:border-paradise-teal transition-all duration-500 group shadow-lg hover:shadow-[0_10px_40px_rgba(6,182,212,0.1)]">
+                    <div class="w-16 h-16 bg-paradise-dark rounded-xl flex items-center justify-center border border-paradise-border mb-8 group-hover:scale-110 transition-transform duration-500 shadow-inner">
+                        <span class="text-3xl">🤝</span>
+                    </div>
+                    <h4 class="text-2xl font-display font-bold text-white mb-4">Buyer Networks</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Got inventory you can't sell? Post it in our exclusive WTS (Want to Sell) channels. Network with wholesale buyers and learn how to bypass platform seller fees by dealing direct.</p>
+                    <ul class="text-xs text-gray-500 space-y-2 font-medium">
+                        <li class="flex gap-2"><span class="text-paradise-teal">✓</span> Direct Cashout buyers list</li>
+                        <li class="flex gap-2"><span class="text-paradise-teal">✓</span> Middleman scam protection</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="calculator" class="py-32 bg-paradise-midnight border-b border-paradise-border relative" x-data="{ 
         startingCapital: 200, 
         avgProfitPerFlip: 35, 
         flipsPerWeek: 5,
         get monthlyProfit() { return (this.avgProfitPerFlip * this.flipsPerWeek) * 4; },
         get roi() { return ((this.monthlyProfit / this.startingCapital) * 100).toFixed(0); }
     }">
-        <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgaWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzEwQjk4MSIgc3Ryb2tlLW9wYWNpdHk9IjAuMDUiPjxwYXRoIGQ9Ik0wIDQwbDQwLTQwTTAgMGw0MCA0MCIvPjwvZz48L3N2Zz4=')] opacity-20 pointer-events-none"></div>
+        
+        <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-20 items-center">
                 
                 <div>
-                    <h2 class="font-sans text-sm font-bold text-paradise-emerald tracking-widest uppercase mb-4">Run The Numbers</h2>
-                    <h3 class="text-4xl md:text-5xl font-display font-black mb-6 text-white">Your Potential <br><span class="text-gradient-emerald">Income.</span></h3>
-                    <p class="text-lg text-paradise-text mb-8 leading-relaxed">You don't need to quit your job. Flipping just a few items a week in your spare time can completely replace your rent or car payment. Play with the calculator to see the math.</p>
+                    <h2 class="font-sans text-xs font-bold text-paradise-emerald tracking-[0.2em] uppercase mb-4">Run The Numbers</h2>
+                    <h3 class="text-4xl md:text-5xl lg:text-6xl font-display font-black mb-8 text-white leading-tight">Your Potential <br><span class="text-gradient-emerald">Income.</span></h3>
+                    <p class="text-lg text-paradise-text mb-10 leading-relaxed">You don't need to quit your job. Flipping just a few items a week in your spare time can completely replace your rent, car payment, or grocery bill. Adjust the sliders below to see the math.</p>
                     
-                    <div class="space-y-8 glass-panel p-8 rounded-xl">
+                    <div class="space-y-10 glass-panel p-10 rounded-2xl shadow-2xl">
                         <div>
-                            <div class="flex justify-between mb-2">
-                                <label class="text-sm font-bold text-white uppercase tracking-widest">Starting Capital</label>
-                                <span class="text-paradise-emerald font-bold font-display" x-text="'£' + startingCapital"></span>
+                            <div class="flex justify-between mb-4">
+                                <label class="text-xs font-bold text-white uppercase tracking-widest">Starting Capital</label>
+                                <span class="text-paradise-emerald font-bold font-display text-xl" x-text="'£' + startingCapital"></span>
                             </div>
                             <input type="range" x-model="startingCapital" min="50" max="2000" step="50" class="w-full">
                         </div>
                         
                         <div>
-                            <div class="flex justify-between mb-2">
-                                <label class="text-sm font-bold text-white uppercase tracking-widest">Avg Profit Per Flip</label>
-                                <span class="text-paradise-emerald font-bold font-display" x-text="'£' + avgProfitPerFlip"></span>
+                            <div class="flex justify-between mb-4">
+                                <label class="text-xs font-bold text-white uppercase tracking-widest">Avg Profit Per Flip</label>
+                                <span class="text-paradise-emerald font-bold font-display text-xl" x-text="'£' + avgProfitPerFlip"></span>
                             </div>
                             <input type="range" x-model="avgProfitPerFlip" min="10" max="150" step="5" class="w-full">
-                            <p class="text-xs text-gray-500 mt-2">£35 is the average profit on a standard sneaker or tech flip.</p>
+                            <p class="text-xs text-gray-500 mt-3 font-medium">£35 is the average profit on a standard sneaker or tech flip.</p>
                         </div>
 
                         <div>
-                            <div class="flex justify-between mb-2">
-                                <label class="text-sm font-bold text-white uppercase tracking-widest">Flips Completed Per Week</label>
-                                <span class="text-paradise-emerald font-bold font-display" x-text="flipsPerWeek + ' Items'"></span>
+                            <div class="flex justify-between mb-4">
+                                <label class="text-xs font-bold text-white uppercase tracking-widest">Flips Completed Per Week</label>
+                                <span class="text-paradise-emerald font-bold font-display text-xl" x-text="flipsPerWeek + ' Items'"></span>
                             </div>
                             <input type="range" x-model="flipsPerWeek" min="1" max="50" step="1" class="w-full">
-                            <p class="text-xs text-gray-500 mt-2">Takes about 2 hours a week to secure 5 items with our pings.</p>
+                            <p class="text-xs text-gray-500 mt-3 font-medium">It takes about 2 hours a week to secure 5 items using our automated pings.</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-paradise-midnight border border-paradise-border rounded-2xl p-10 flex flex-col justify-center items-center text-center relative overflow-hidden h-full min-h-[400px] shadow-[0_0_50px_rgba(0,0,0,0.5)]">
-                    <div class="absolute inset-0 bg-gradient-to-t from-paradise-emerald/10 to-transparent pointer-events-none"></div>
+                <div class="bg-paradise-midnight border-2 border-paradise-emerald/50 rounded-[2rem] p-12 flex flex-col justify-center items-center text-center relative overflow-hidden h-full min-h-[500px] shadow-[0_0_80px_rgba(16,185,129,0.15)]">
+                    <div class="absolute inset-0 bg-gradient-to-t from-paradise-emerald/20 via-transparent to-transparent pointer-events-none"></div>
                     
                     <div class="relative z-10 w-full">
-                        <p class="text-sm font-bold text-paradise-text uppercase tracking-widest mb-4">Projected Monthly Profit</p>
-                        <div class="text-7xl font-display font-black text-white mb-6" x-text="'£' + monthlyProfit.toLocaleString()"></div>
+                        <p class="text-sm font-bold text-paradise-text uppercase tracking-widest mb-6">Projected Monthly Profit</p>
+                        <div class="text-7xl md:text-8xl font-display font-black text-white mb-8 drop-shadow-2xl" x-text="'£' + monthlyProfit.toLocaleString()"></div>
                         
-                        <div class="w-full h-px bg-paradise-border my-8"></div>
+                        <div class="w-full h-px bg-paradise-border my-10"></div>
                         
-                        <div class="grid grid-cols-2 gap-4 text-left">
-                            <div class="bg-paradise-panel p-4 rounded-lg border border-paradise-border">
-                                <p class="text-xs text-gray-500 uppercase tracking-widest mb-1 font-bold">Monthly ROI</p>
-                                <p class="text-2xl font-bold text-paradise-emerald" x-text="roi + '%'"></p>
+                        <div class="grid grid-cols-2 gap-6 text-left">
+                            <div class="bg-paradise-panel p-6 rounded-xl border border-paradise-border shadow-inner">
+                                <p class="text-xs text-gray-500 uppercase tracking-widest mb-2 font-bold">Monthly ROI</p>
+                                <p class="text-3xl font-display font-bold text-paradise-emerald" x-text="roi + '%'"></p>
                             </div>
-                            <div class="bg-paradise-panel p-4 rounded-lg border border-paradise-border">
-                                <p class="text-xs text-gray-500 uppercase tracking-widest mb-1 font-bold">Cost of Pass</p>
-                                <p class="text-2xl font-bold text-white">£24.99</p>
+                            <div class="bg-paradise-panel p-6 rounded-xl border border-paradise-border shadow-inner">
+                                <p class="text-xs text-gray-500 uppercase tracking-widest mb-2 font-bold">Cost of Pass</p>
+                                <p class="text-3xl font-display font-bold text-white">£24.99</p>
                             </div>
                         </div>
                         
-                        <p class="mt-6 text-sm text-gray-400 font-medium">Just <span class="text-white font-bold" x-text="Math.ceil(24.99 / avgProfitPerFlip)"></span> flip(s) per month pays for your membership. Everything else is pure profit.</p>
+                        <div class="mt-10 bg-paradise-emerald/10 border border-paradise-emerald/30 p-4 rounded-lg">
+                            <p class="text-sm text-gray-300 font-medium">Just <span class="text-white font-bold text-lg" x-text="Math.ceil(24.99 / avgProfitPerFlip)"></span> flip(s) per month pays for your entire membership. Everything else goes straight to your bank account.</p>
+                        </div>
                     </div>
                 </div>
 
@@ -454,233 +647,238 @@
         </div>
     </section>
 
-    <section id="features" class="py-24 bg-paradise-midnight relative">
-        <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-20">
-                <h2 class="font-sans text-sm font-bold text-paradise-emerald tracking-widest uppercase mb-4">The Infrastructure</h2>
-                <h3 class="text-4xl md:text-5xl font-display font-black text-white mb-6">What's Inside The <span class="text-gradient-teal">Paradise.</span></h3>
-                <p class="text-xl text-paradise-text max-w-2xl mx-auto">We provide the leads, the tools, and the buyers. You just click buy.</p>
-            </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-paradise-panel border border-paradise-border p-8 rounded-2xl hover:border-paradise-emerald transition-all group">
-                    <div class="w-14 h-14 bg-paradise-dark rounded-xl flex items-center justify-center border border-paradise-border mb-6 group-hover:scale-110 transition-transform">
-                        <span class="text-3xl">👟</span>
+    <section id="proof" class="py-32 bg-paradise-panel border-b border-paradise-border relative">
+        <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <h2 class="text-4xl md:text-5xl lg:text-6xl font-display font-black text-center text-white mb-20 uppercase tracking-tight">The Proof is in the <span class="text-paradise-emerald">Profits.</span></h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-paradise-midnight border border-paradise-border p-10 rounded-2xl relative shadow-xl hover:-translate-y-2 transition-transform duration-500">
+                    <div class="flex text-paradise-emerald mb-6 text-lg">★★★★★</div>
+                    <p class="text-gray-300 mb-8 text-base leading-relaxed">"Joined a week ago. First ping I clicked was a price error on a dyson vacuum. Bought for £150, sold it locally on Facebook Marketplace the next day for £300. Membership paid for the next 6 months right there."</p>
+                    <div class="border-t border-paradise-border pt-6 flex items-center justify-between">
+                        <div>
+                            <p class="font-bold text-white text-base">Liam T.</p>
+                            <p class="text-[10px] text-paradise-emerald uppercase tracking-widest font-bold mt-1">Verified Member</p>
+                        </div>
+                        <span class="text-3xl">📱</span>
                     </div>
-                    <h4 class="text-xl font-display font-bold text-white mb-3">Sneaker & Streetwear Drops</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed">Get exact release times, links, and stock numbers for hyped Nike, Jordan, and Yeezy drops. We tell you exactly which sizes yield the highest resale margins.</p>
                 </div>
 
-                <div class="bg-paradise-panel border border-paradise-border p-8 rounded-2xl hover:border-paradise-teal transition-all group">
-                    <div class="w-14 h-14 bg-paradise-dark rounded-xl flex items-center justify-center border border-paradise-border mb-6 group-hover:scale-110 transition-transform">
-                        <span class="text-3xl">🚨</span>
-                    </div>
-                    <h4 class="text-xl font-display font-bold text-white mb-3">Price Errors & Glitches</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed">Retailers make mistakes. Our custom bots scrape Amazon, Argos, Currys, and John Lewis 24/7. When a £500 TV is listed for £50, your phone buzzes immediately.</p>
-                </div>
-
-                <div class="bg-paradise-panel border border-paradise-border p-8 rounded-2xl hover:border-paradise-emerald transition-all group">
-                    <div class="w-14 h-14 bg-paradise-dark rounded-xl flex items-center justify-center border border-paradise-border mb-6 group-hover:scale-110 transition-transform">
-                        <span class="text-3xl">🎫</span>
-                    </div>
-                    <h4 class="text-xl font-display font-bold text-white mb-3">Ticket & Event Flips</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed">Concerts, sports, and exclusive events. We provide presale codes, queue-bypassing techniques, and the exact platforms to safely resell tickets for 200%+ ROI.</p>
-                </div>
-
-                <div class="bg-paradise-panel border border-paradise-border p-8 rounded-2xl hover:border-paradise-teal transition-all group">
-                    <div class="w-14 h-14 bg-paradise-dark rounded-xl flex items-center justify-center border border-paradise-border mb-6 group-hover:scale-110 transition-transform">
-                        <span class="text-3xl">📦</span>
-                    </div>
-                    <h4 class="text-xl font-display font-bold text-white mb-3">Amazon FBA Leads</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed">Want to build passive income? We post daily Online Arbitrage (OA) leads that you can buy and ship directly to Amazon FBA warehouses. Let Jeff Bezos do the shipping.</p>
-                </div>
-
-                <div class="bg-paradise-panel border border-paradise-border p-8 rounded-2xl hover:border-paradise-emerald transition-all group">
-                    <div class="w-14 h-14 bg-paradise-dark rounded-xl flex items-center justify-center border border-paradise-border mb-6 group-hover:scale-110 transition-transform">
+                <div class="bg-paradise-midnight border border-paradise-border p-10 rounded-2xl relative shadow-xl hover:-translate-y-2 transition-transform duration-500 transform md:-translate-y-6">
+                    <div class="flex text-paradise-emerald mb-6 text-lg">★★★★★</div>
+                    <p class="text-gray-300 mb-8 text-base leading-relaxed">"The Vinted bot is insane. I literally refresh the channel while watching TV, buy underpriced North Face jumpers, and relist them on eBay. Making an extra £400 a week doing bare minimum effort."</p>
+                    <div class="border-t border-paradise-border pt-6 flex items-center justify-between">
+                        <div>
+                            <p class="font-bold text-white text-base">Chloe S.</p>
+                            <p class="text-[10px] text-paradise-emerald uppercase tracking-widest font-bold mt-1">Vinted Flipper</p>
+                        </div>
                         <span class="text-3xl">👕</span>
                     </div>
-                    <h4 class="text-xl font-display font-bold text-white mb-3">Vinted & Depop Bot</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed">Our fastest growing sector. Get notified the second underpriced designer gear (Corteiz, Ralph Lauren, Stone Island) is listed on Vinted. Buy it instantly, flip it for double.</p>
                 </div>
 
-                <div class="bg-paradise-panel border border-paradise-border p-8 rounded-2xl hover:border-paradise-teal transition-all group">
-                    <div class="w-14 h-14 bg-paradise-dark rounded-xl flex items-center justify-center border border-paradise-border mb-6 group-hover:scale-110 transition-transform">
+                <div class="bg-paradise-midnight border border-paradise-border p-10 rounded-2xl relative shadow-xl hover:-translate-y-2 transition-transform duration-500">
+                    <div class="flex text-paradise-emerald mb-6 text-lg">★★★★★</div>
+                    <p class="text-gray-300 mb-8 text-base leading-relaxed">"Didn't know anything about sneakers. The admins here tell you exactly what sizes to buy and what platform to sell them on (StockX/Alias). It's essentially copy-paste profit. Highly recommend."</p>
+                    <div class="border-t border-paradise-border pt-6 flex items-center justify-between">
+                        <div>
+                            <p class="font-bold text-white text-base">James R.</p>
+                            <p class="text-[10px] text-paradise-emerald uppercase tracking-widest font-bold mt-1">Student / Hustler</p>
+                        </div>
+                        <span class="text-3xl">👟</span>
+                    </div>
+                </div>
+                
+                <div class="bg-paradise-midnight border border-paradise-border p-10 rounded-2xl relative shadow-xl hover:-translate-y-2 transition-transform duration-500">
+                    <div class="flex text-paradise-emerald mb-6 text-lg">★★★★★</div>
+                    <p class="text-gray-300 mb-8 text-base leading-relaxed">"I was skeptical about paying £25 a month, but the Ticket presale codes alone made me £600 this month. I secured 4 Taylor Swift tickets using their exact queue bypass method. Unbelievable value."</p>
+                    <div class="border-t border-paradise-border pt-6 flex items-center justify-between">
+                        <div>
+                            <p class="font-bold text-white text-base">Sarah M.</p>
+                            <p class="text-[10px] text-paradise-emerald uppercase tracking-widest font-bold mt-1">Ticket Reseller</p>
+                        </div>
+                        <span class="text-3xl">🎫</span>
+                    </div>
+                </div>
+
+                <div class="bg-paradise-midnight border border-paradise-border p-10 rounded-2xl relative shadow-xl hover:-translate-y-2 transition-transform duration-500 transform md:-translate-y-6">
+                    <div class="flex text-paradise-emerald mb-6 text-lg">★★★★★</div>
+                    <p class="text-gray-300 mb-8 text-base leading-relaxed">"The Amazon FBA leads are top tier. I work a 9-5 so I can't be at a computer all day. I just buy the Online Arbitrage leads they post during my lunch break, ship them to a prep center, and Amazon does the rest."</p>
+                    <div class="border-t border-paradise-border pt-6 flex items-center justify-between">
+                        <div>
+                            <p class="font-bold text-white text-base">David W.</p>
+                            <p class="text-[10px] text-paradise-emerald uppercase tracking-widest font-bold mt-1">FBA Seller</p>
+                        </div>
+                        <span class="text-3xl">📦</span>
+                    </div>
+                </div>
+
+                <div class="bg-paradise-midnight border border-paradise-border p-10 rounded-2xl relative shadow-xl hover:-translate-y-2 transition-transform duration-500">
+                    <div class="flex text-paradise-emerald mb-6 text-lg">★★★★★</div>
+                    <p class="text-gray-300 mb-8 text-base leading-relaxed">"The community is what makes this. Anytime I get stuck listing an item or need to know if a deal is actually good, I post it in the chat and admins reply within minutes. You are literally never doing this alone."</p>
+                    <div class="border-t border-paradise-border pt-6 flex items-center justify-between">
+                        <div>
+                            <p class="font-bold text-white text-base">Tom H.</p>
+                            <p class="text-[10px] text-paradise-emerald uppercase tracking-widest font-bold mt-1">Full-time Flipper</p>
+                        </div>
                         <span class="text-3xl">🤝</span>
                     </div>
-                    <h4 class="text-xl font-display font-bold text-white mb-3">Buyer Networks & Support</h4>
-                    <p class="text-gray-400 text-sm leading-relaxed">Got inventory you can't sell? Post it in our WTS (Want to Sell) channels. Network with wholesale buyers and learn how to bypass seller fees by dealing direct.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="proof" class="py-24 bg-paradise-panel border-y border-paradise-border">
-        <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-4xl md:text-5xl font-display font-black text-center text-white mb-16 uppercase tracking-tight">The Proof is in the <span class="text-paradise-emerald">Profits.</span></h2>
-            
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-paradise-midnight border border-paradise-border p-8 rounded-xl relative">
-                    <div class="flex text-paradise-emerald mb-4">★★★★★</div>
-                    <p class="text-gray-300 mb-6 text-sm leading-relaxed">"Joined a week ago. First ping I clicked was a price error on a dyson vacuum. Bought for £150, sold it locally on Facebook Marketplace the next day for £300. Membership paid for the next 6 months right there."</p>
-                    <div class="border-t border-paradise-border pt-4">
-                        <p class="font-bold text-white text-sm">Liam T.</p>
-                        <p class="text-[10px] text-paradise-emerald uppercase tracking-widest font-bold mt-1">Verified Member</p>
-                    </div>
-                </div>
-
-                <div class="bg-paradise-midnight border border-paradise-border p-8 rounded-xl relative">
-                    <div class="flex text-paradise-emerald mb-4">★★★★★</div>
-                    <p class="text-gray-300 mb-6 text-sm leading-relaxed">"The Vinted bot is insane. I literally refresh the channel while watching TV, buy underpriced North Face jumpers, and relist them on eBay. Making an extra £400 a week doing bare minimum effort."</p>
-                    <div class="border-t border-paradise-border pt-4">
-                        <p class="font-bold text-white text-sm">Chloe S.</p>
-                        <p class="text-[10px] text-paradise-emerald uppercase tracking-widest font-bold mt-1">Vinted Flipper</p>
-                    </div>
-                </div>
-
-                <div class="bg-paradise-midnight border border-paradise-border p-8 rounded-xl relative">
-                    <div class="flex text-paradise-emerald mb-4">★★★★★</div>
-                    <p class="text-gray-300 mb-6 text-sm leading-relaxed">"Didn't know anything about sneakers. The admins here tell you exactly what sizes to buy and what platform to sell them on (StockX/Alias). It's essentially copy-paste profit. Highly recommend."</p>
-                    <div class="border-t border-paradise-border pt-4">
-                        <p class="font-bold text-white text-sm">James R.</p>
-                        <p class="text-[10px] text-paradise-emerald uppercase tracking-widest font-bold mt-1">Student / Hustler</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="pricing" class="py-24 bg-paradise-midnight relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-paradise-emerald/10 rounded-full blur-[120px] pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-paradise-teal/10 rounded-full blur-[120px] pointer-events-none"></div>
+    <section id="pricing" class="py-32 bg-paradise-midnight relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-paradise-emerald/10 rounded-full blur-[150px] pointer-events-none"></div>
+        <div class="absolute bottom-0 left-0 w-[800px] h-[800px] bg-paradise-teal/10 rounded-full blur-[150px] pointer-events-none"></div>
         
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="text-center mb-12">
-                <h2 class="text-4xl md:text-5xl lg:text-6xl font-display font-black text-white mb-6 uppercase tracking-tight">Enter <span class="text-gradient-emerald">Paradise.</span></h2>
-                <p class="text-lg text-paradise-text max-w-2xl mx-auto">No hidden fees. No upsells. Just pure, unadulterated value and instant access to the UK's fastest growing wealth network.</p>
+        <div class="max-w-[70rem] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl md:text-6xl lg:text-7xl font-display font-black text-white mb-6 uppercase tracking-tight">Enter <span class="text-gradient-emerald">Paradise.</span></h2>
+                <p class="text-xl text-paradise-text max-w-2xl mx-auto leading-relaxed">No hidden fees. No upsells. Just pure, unadulterated value and instant access to the UK's fastest growing wealth network.</p>
             </div>
 
-            <div class="glass-card rounded-[2rem] p-1 border border-paradise-emerald/50 shadow-[0_0_60px_rgba(16,185,129,0.15)] relative">
+            <div class="glass-card rounded-[2.5rem] p-2 border border-paradise-emerald/50 shadow-[0_0_80px_rgba(16,185,129,0.15)] relative z-10 transform lg:scale-105">
                 
-                <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-paradise-emerald text-paradise-midnight font-bold px-6 py-1.5 rounded-full text-xs uppercase tracking-widest shadow-xl whitespace-nowrap">
-                    Instant Delivery
+                <div class="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-paradise-emerald text-paradise-midnight font-bold px-8 py-2 rounded-full text-xs uppercase tracking-widest shadow-2xl whitespace-nowrap">
+                    Instant Discord Delivery
                 </div>
 
-                <div class="bg-paradise-panel rounded-[30px] p-8 md:p-14 flex flex-col md:flex-row gap-12 items-center">
+                <div class="bg-paradise-panel rounded-[2.2rem] p-10 md:p-16 flex flex-col md:flex-row gap-16 items-center">
                     
                     <div class="flex-1 text-center md:text-left">
-                        <h3 class="text-3xl font-display font-black text-white mb-2">Premium Pass</h3>
-                        <p class="text-sm text-paradise-text mb-8">Full Discord access to all monitors.</p>
+                        <h3 class="text-4xl font-display font-black text-white mb-4">Premium Pass</h3>
+                        <p class="text-base text-paradise-text mb-10">Full Discord access to all algorithms, monitors, and guides.</p>
                         
-                        <div class="flex items-baseline justify-center md:justify-start gap-2 mb-4">
-                            <span class="text-6xl font-display font-black text-white">£24.99</span>
-                            <span class="font-sans text-sm text-gray-500 font-bold uppercase tracking-wider">/ month</span>
+                        <div class="flex items-baseline justify-center md:justify-start gap-3 mb-6">
+                            <span class="text-7xl font-display font-black text-white">£24.99</span>
+                            <span class="font-sans text-base text-gray-500 font-bold uppercase tracking-wider">/ month</span>
                         </div>
-                        <p class="text-sm text-paradise-emerald font-bold mb-8 bg-paradise-emerald/10 inline-block px-3 py-1 rounded">1 successful flip covers the cost.</p>
+                        <p class="text-sm text-paradise-midnight font-bold mb-10 bg-paradise-emerald inline-block px-4 py-1.5 rounded-sm shadow-lg">1 successful flip covers the cost.</p>
                         
-                        <a href="https://whop.com/resellers-paradise-6/resellers-paradise-6?a=digitalartlab" target="_blank" class="block w-full text-center btn-emerald font-display font-bold uppercase tracking-widest py-5 rounded-xl text-lg shadow-lg">
+                        <a href="https://whop.com/resellers-paradise-6/resellers-paradise-6?a=digitalartlab" target="_blank" class="block w-full text-center btn-emerald font-display font-bold uppercase tracking-widest py-6 rounded-xl text-lg shadow-2xl">
                             Join Community Now
                         </a>
                         
-                        <div class="mt-6 flex items-center justify-center md:justify-start gap-2 text-xs text-gray-500 font-semibold font-sans">
-                            <svg class="w-4 h-4 text-paradise-emerald" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <div class="mt-8 flex items-center justify-center md:justify-start gap-3 text-xs text-gray-500 font-bold font-sans uppercase tracking-widest">
+                            <svg class="w-5 h-5 text-paradise-emerald" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                             Secure Checkout via Whop. Cancel Anytime.
                         </div>
                     </div>
 
-                    <div class="flex-1 w-full md:border-l border-paradise-border pt-8 md:pt-0 md:pl-10">
-                        <ul class="space-y-5">
-                            <li class="flex items-start gap-4">
-                                <div class="w-6 h-6 rounded-full bg-paradise-emerald/20 flex items-center justify-center text-paradise-emerald flex-shrink-0 mt-0.5">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                    <div class="flex-1 w-full md:border-l border-paradise-border pt-10 md:pt-0 md:pl-12">
+                        <ul class="space-y-6">
+                            <li class="flex items-start gap-5">
+                                <div class="w-8 h-8 rounded-full bg-paradise-emerald/20 flex items-center justify-center text-paradise-emerald flex-shrink-0 mt-0.5 shadow-inner">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
                                 </div>
-                                <span class="text-white font-medium text-sm">24/7 UK & EU Price Glitch Monitors</span>
+                                <span class="text-white font-medium text-base">24/7 UK & EU Price Glitch Monitors</span>
                             </li>
-                            <li class="flex items-start gap-4">
-                                <div class="w-6 h-6 rounded-full bg-paradise-emerald/20 flex items-center justify-center text-paradise-emerald flex-shrink-0 mt-0.5">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <li class="flex items-start gap-5">
+                                <div class="w-8 h-8 rounded-full bg-paradise-emerald/20 flex items-center justify-center text-paradise-emerald flex-shrink-0 mt-0.5 shadow-inner">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
                                 </div>
-                                <span class="text-white font-medium text-sm">Automated Vinted & Depop Scrapers</span>
+                                <span class="text-white font-medium text-base">Automated Vinted & Depop Scrapers</span>
                             </li>
-                            <li class="flex items-start gap-4">
-                                <div class="w-6 h-6 rounded-full bg-paradise-emerald/20 flex items-center justify-center text-paradise-emerald flex-shrink-0 mt-0.5">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <li class="flex items-start gap-5">
+                                <div class="w-8 h-8 rounded-full bg-paradise-emerald/20 flex items-center justify-center text-paradise-emerald flex-shrink-0 mt-0.5 shadow-inner">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
                                 </div>
-                                <span class="text-white font-medium text-sm">Sneaker Release & Restock Info</span>
+                                <span class="text-white font-medium text-base">Sneaker Release & Restock Info</span>
                             </li>
-                            <li class="flex items-start gap-4">
-                                <div class="w-6 h-6 rounded-full bg-paradise-emerald/20 flex items-center justify-center text-paradise-emerald flex-shrink-0 mt-0.5">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <li class="flex items-start gap-5">
+                                <div class="w-8 h-8 rounded-full bg-paradise-emerald/20 flex items-center justify-center text-paradise-emerald flex-shrink-0 mt-0.5 shadow-inner">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
                                 </div>
-                                <span class="text-white font-medium text-sm">Ticket Presale Codes & Strategies</span>
+                                <span class="text-white font-medium text-base">Ticket Presale Codes & Strategies</span>
                             </li>
-                            <li class="flex items-start gap-4">
-                                <div class="w-6 h-6 rounded-full bg-paradise-emerald/20 flex items-center justify-center text-paradise-emerald flex-shrink-0 mt-0.5">
-                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                            <li class="flex items-start gap-5">
+                                <div class="w-8 h-8 rounded-full bg-paradise-emerald/20 flex items-center justify-center text-paradise-emerald flex-shrink-0 mt-0.5 shadow-inner">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
                                 </div>
-                                <span class="text-white font-medium text-sm">1-on-1 Support & Flipping Guides</span>
+                                <span class="text-white font-medium text-base">Amazon FBA OA Leads & Guides</span>
+                            </li>
+                            <li class="flex items-start gap-5">
+                                <div class="w-8 h-8 rounded-full bg-paradise-emerald/20 flex items-center justify-center text-paradise-emerald flex-shrink-0 mt-0.5 shadow-inner">
+                                    <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                </div>
+                                <span class="text-white font-medium text-base">1-on-1 Support & Active Networking</span>
                             </li>
                         </ul>
                     </div>
                 </div>
             </div>
             
-            <p class="text-center text-gray-500 text-xs mt-8 font-medium">
-                Prefer to view our base listing? <br>
-                <a href="https://whop.com/resellers-paradise-6?a=digitalartlab" target="_blank" class="text-paradise-text hover:text-white underline mt-1 inline-block transition-colors">View Whop Profile</a>
-            </p>
+            <div class="text-center mt-12">
+                <p class="text-gray-500 text-sm font-medium">
+                    Prefer to view our base listing first? <br>
+                    <a href="https://whop.com/resellers-paradise-6?a=digitalartlab" target="_blank" class="text-paradise-text hover:text-white border-b border-paradise-text hover:border-white pb-0.5 mt-2 inline-block transition-colors">View Main Whop Profile</a>
+                </p>
+            </div>
         </div>
     </section>
 
-    <section class="py-24 bg-paradise-panel border-b border-paradise-border" x-data="{ activeAccordion: null }">
+    <section class="py-32 bg-paradise-panel border-b border-paradise-border" x-data="{ activeAccordion: null }">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl md:text-4xl font-display font-black text-center mb-12 text-white">Frequently Asked <span class="text-paradise-emerald">Questions</span></h2>
+            <h2 class="text-4xl md:text-5xl font-display font-black text-center mb-16 text-white uppercase">Frequently Asked <span class="text-paradise-emerald">Questions</span></h2>
             
-            <div class="space-y-4">
+            <div class="space-y-6">
                 
-                <div class="bg-paradise-midnight border border-paradise-border rounded-xl overflow-hidden transition-all duration-300">
-                    <button @click="activeAccordion = activeAccordion === 1 ? null : 1" class="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-paradise-border/50 focus:outline-none">
-                        <span class="font-bold text-white text-lg">Do I need to be in the UK to join?</span>
-                        <svg :class="{'rotate-180 text-paradise-emerald': activeAccordion === 1}" class="w-6 h-6 text-gray-500 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                <div class="bg-paradise-midnight border border-paradise-border rounded-xl overflow-hidden transition-all duration-300 hover:border-paradise-borderHl">
+                    <button @click="activeAccordion = activeAccordion === 1 ? null : 1" class="w-full px-8 py-8 text-left flex justify-between items-center focus:outline-none">
+                        <span class="font-bold text-white text-xl">Do I need to be in the UK to join?</span>
+                        <svg :class="{'rotate-180 text-paradise-emerald': activeAccordion === 1}" class="w-8 h-8 text-gray-500 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="activeAccordion === 1" x-collapse>
-                        <div class="px-8 pb-6 text-gray-400 text-sm leading-relaxed border-t border-paradise-border pt-4">
-                            While a large portion of our retail price glitches are UK/EU focused (Amazon UK, Argos, Currys), sneaker drops, ticket reselling, and general online arbitrage principles are global. We have members from across Europe and the US successfully utilizing our alerts.
+                        <div class="px-8 pb-8 text-gray-400 text-base leading-relaxed border-t border-paradise-border pt-6">
+                            While a large portion of our retail price glitches are UK/EU focused (Amazon UK, Argos, Currys, John Lewis), sneaker drops, ticket reselling, and general online arbitrage principles are global. We have members from across Europe and the US successfully utilizing our alerts and networking channels.
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-paradise-midnight border border-paradise-border rounded-xl overflow-hidden transition-all duration-300">
-                    <button @click="activeAccordion = activeAccordion === 2 ? null : 2" class="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-paradise-border/50 focus:outline-none">
-                        <span class="font-bold text-white text-lg">I've never resold anything. Will I understand this?</span>
-                        <svg :class="{'rotate-180 text-paradise-emerald': activeAccordion === 2}" class="w-6 h-6 text-gray-500 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                <div class="bg-paradise-midnight border border-paradise-border rounded-xl overflow-hidden transition-all duration-300 hover:border-paradise-borderHl">
+                    <button @click="activeAccordion = activeAccordion === 2 ? null : 2" class="w-full px-8 py-8 text-left flex justify-between items-center focus:outline-none">
+                        <span class="font-bold text-white text-xl">I've never resold anything. Will I understand this?</span>
+                        <svg :class="{'rotate-180 text-paradise-emerald': activeAccordion === 2}" class="w-8 h-8 text-gray-500 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="activeAccordion === 2" x-collapse>
-                        <div class="px-8 pb-6 text-gray-400 text-sm leading-relaxed border-t border-paradise-border pt-4">
-                            Absolutely. The Discord is structured specifically for beginners. We have extensive guides on how to set up accounts on eBay, StockX, and Vinted, how to ship items, and how to read our ping alerts. Plus, our support team is available 24/7 to answer basic questions.
+                        <div class="px-8 pb-8 text-gray-400 text-base leading-relaxed border-t border-paradise-border pt-6">
+                            Absolutely. The Discord is structured specifically for beginners. We have extensive, step-by-step guides on how to set up accounts on eBay, StockX, and Vinted, how to package and ship items, and how to read our ping alerts. Plus, our support team and veteran members are available 24/7 to answer basic questions in the general chat.
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-paradise-midnight border border-paradise-border rounded-xl overflow-hidden transition-all duration-300">
-                    <button @click="activeAccordion = activeAccordion === 3 ? null : 3" class="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-paradise-border/50 focus:outline-none">
-                        <span class="font-bold text-white text-lg">Are bots required to get the items?</span>
-                        <svg :class="{'rotate-180 text-paradise-emerald': activeAccordion === 3}" class="w-6 h-6 text-gray-500 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                <div class="bg-paradise-midnight border border-paradise-border rounded-xl overflow-hidden transition-all duration-300 hover:border-paradise-borderHl">
+                    <button @click="activeAccordion = activeAccordion === 3 ? null : 3" class="w-full px-8 py-8 text-left flex justify-between items-center focus:outline-none">
+                        <span class="font-bold text-white text-xl">Are bots required to get the items?</span>
+                        <svg :class="{'rotate-180 text-paradise-emerald': activeAccordion === 3}" class="w-8 h-8 text-gray-500 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="activeAccordion === 3" x-collapse>
-                        <div class="px-8 pb-6 text-gray-400 text-sm leading-relaxed border-t border-paradise-border pt-4">
-                            No. While we provide automated alerts (our bots scanning sites), you can checkout manually. For price glitches and Vinted flips, speed is important, but a manual buyer who is paying attention to their notifications can easily secure highly profitable items daily.
+                        <div class="px-8 pb-8 text-gray-400 text-base leading-relaxed border-t border-paradise-border pt-6">
+                            No. While we provide automated alerts (our internal bots scanning sites and posting to discord), you can checkout manually. For price glitches and Vinted flips, speed is important, but a manual buyer who is paying attention to their push notifications can easily secure highly profitable items daily without spending thousands on personal bot software.
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-paradise-midnight border border-paradise-border rounded-xl overflow-hidden transition-all duration-300">
-                    <button @click="activeAccordion = activeAccordion === 4 ? null : 4" class="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-paradise-border/50 focus:outline-none">
-                        <span class="font-bold text-white text-lg">Why use the link on this page?</span>
-                        <svg :class="{'rotate-180 text-paradise-emerald': activeAccordion === 4}" class="w-6 h-6 text-gray-500 transform transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                <div class="bg-paradise-midnight border border-paradise-border rounded-xl overflow-hidden transition-all duration-300 hover:border-paradise-borderHl">
+                    <button @click="activeAccordion = activeAccordion === 4 ? null : 4" class="w-full px-8 py-8 text-left flex justify-between items-center focus:outline-none">
+                        <span class="font-bold text-white text-xl">How quickly can I make my £24.99 back?</span>
+                        <svg :class="{'rotate-180 text-paradise-emerald': activeAccordion === 4}" class="w-8 h-8 text-gray-500 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                     </button>
                     <div x-show="activeAccordion === 4" x-collapse>
-                        <div class="px-8 pb-6 text-gray-400 text-sm leading-relaxed border-t border-paradise-border pt-4">
-                            This is an official affiliate promotional page. By clicking the "Join Community" button here, you are routed directly to the secure Whop checkout for Resellers Paradise. We earn a small commission at no extra cost to you, which allows us to keep evaluating the best side-hustle communities.
+                        <div class="px-8 pb-8 text-gray-400 text-base leading-relaxed border-t border-paradise-border pt-6">
+                            Often within the first 24 hours. The average profit on a single sneaker flip or a Vinted steal is between £30 to £60. One successful transaction covers your entire month's membership. Everything else you flip for the rest of the month is pure profit into your pocket.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-paradise-midnight border border-paradise-border rounded-xl overflow-hidden transition-all duration-300 hover:border-paradise-borderHl">
+                    <button @click="activeAccordion = activeAccordion === 5 ? null : 5" class="w-full px-8 py-8 text-left flex justify-between items-center focus:outline-none">
+                        <span class="font-bold text-white text-xl">Why use the links on this website to sign up?</span>
+                        <svg :class="{'rotate-180 text-paradise-emerald': activeAccordion === 5}" class="w-8 h-8 text-gray-500 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div x-show="activeAccordion === 5" x-collapse>
+                        <div class="px-8 pb-8 text-gray-400 text-base leading-relaxed border-t border-paradise-border pt-6">
+                            This is an official affiliate promotional page. By clicking the "Join Community" button here, you are routed directly to the secure Whop checkout for Resellers Paradise. We earn a small commission at zero extra cost to you, which allows us to keep evaluating and recommending the best side-hustle communities.
                         </div>
                     </div>
                 </div>
@@ -689,42 +887,40 @@
         </div>
     </section>
 
-    <footer class="bg-paradise-midnight pt-20 pb-10 border-t border-paradise-border">
+    <footer class="bg-paradise-midnight pt-24 pb-12 border-t border-paradise-border">
         <div class="max-w-[85rem] mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid lg:grid-cols-12 gap-12 border-b border-paradise-border pb-12">
+            <div class="grid lg:grid-cols-12 gap-16 border-b border-paradise-border pb-16">
                 
                 <div class="lg:col-span-5">
-                    <div class="flex items-center gap-3 mb-6">
-                        <div class="w-10 h-10 rounded-lg bg-paradise-panel border border-paradise-border flex items-center justify-center">
-                            <svg class="w-6 h-6 text-paradise-emerald" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-12 h-12 rounded-xl bg-paradise-panel border border-paradise-border flex items-center justify-center shadow-lg">
+                            <svg class="w-7 h-7 text-paradise-emerald" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </div>
-                        <span class="font-display font-black text-xl tracking-tight text-white">Resellers<span class="text-paradise-emerald">Paradise</span></span>
+                        <span class="font-display font-black text-2xl tracking-tight text-white uppercase">Resellers<span class="text-paradise-emerald">Paradise</span></span>
                     </div>
-                    <p class="text-sm text-gray-500 leading-relaxed pr-8 font-medium">
-                        The ultimate infrastructure for modern reselling. Stop missing out on profitable flips. Turn notifications on and start printing.
+                    <p class="text-base text-gray-500 leading-relaxed pr-8 font-medium mb-8">
+                        The ultimate infrastructure for modern reselling. Stop missing out on profitable flips. Turn notifications on, follow the alerts, and start printing cash from your phone.
                     </p>
-                    <div class="mt-8">
-                        <a href="https://whop.com/resellers-paradise-6/resellers-paradise-6?a=digitalartlab" target="_blank" class="inline-block bg-paradise-panel border border-paradise-emerald text-paradise-emerald hover:bg-paradise-emerald hover:text-paradise-midnight font-bold text-xs uppercase tracking-widest px-8 py-3 rounded-lg transition-all shadow-lg">
-                            Get Access
-                        </a>
-                    </div>
+                    <a href="https://whop.com/resellers-paradise-6/resellers-paradise-6?a=digitalartlab" target="_blank" class="inline-block bg-paradise-panel border border-paradise-emerald text-paradise-emerald hover:bg-paradise-emerald hover:text-paradise-midnight font-bold text-sm uppercase tracking-widest px-10 py-4 rounded-lg transition-all shadow-xl">
+                        Gain Access (£24.99)
+                    </a>
                 </div>
                 
                 <div class="lg:col-span-7">
-                    <div class="text-[11px] text-gray-500 space-y-4 leading-relaxed font-semibold uppercase tracking-wider font-sans">
-                        <p><strong class="text-gray-400">Affiliate Disclosure:</strong> This website operates as an independent affiliate partner. We earn a commission when you purchase Whop access via the links on this page. This does not affect the price you pay and helps support our curation platform.</p>
-                        <p><strong class="text-gray-400">Earnings Disclaimer:</strong> The profit margins, ROIs, and revenue examples shown on this site (including the calculator and live feed simulator) are for illustrative purposes to explain the reselling business model. We do not guarantee that you will make money. Arbitrage requires speed, capital, and effort. Past success of community members does not guarantee your future results. All subscriptions are processed securely via Whop.</p>
+                    <div class="text-xs text-gray-500 space-y-6 leading-relaxed font-semibold uppercase tracking-wider font-sans bg-paradise-panel/30 p-8 rounded-2xl border border-paradise-border">
+                        <p><strong class="text-gray-300">Affiliate Disclosure:</strong> This website operates as an independent affiliate partner. We earn a commission when you purchase Whop access via the links on this page. This does not affect the price you pay and helps support our curation platform.</p>
+                        <p><strong class="text-gray-300">Earnings Disclaimer:</strong> The profit margins, ROIs, and revenue examples shown on this site (including the calculator and live feed simulator) are for illustrative purposes to explain the reselling business model. We do not guarantee that you will make money. Arbitrage requires speed, capital, and effort. Past success of community members does not guarantee your future results. All subscriptions are processed securely via Whop.</p>
                     </div>
                 </div>
                 
             </div>
             
-            <div class="flex flex-col md:flex-row justify-between items-center mt-10 font-sans text-xs text-gray-600 font-bold uppercase tracking-widest">
+            <div class="flex flex-col md:flex-row justify-between items-center mt-12 font-sans text-xs text-gray-600 font-bold uppercase tracking-widest">
                 <p>&copy; 2026 Flip Hustle Affiliates. All Rights Reserved.</p>
-                <p class="mt-4 md:mt-0 flex items-center gap-2 text-paradise-text">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                <p class="mt-4 md:mt-0 flex items-center gap-3 text-paradise-text">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
                     Secure Checkout Powered by Whop
                 </p>
             </div>
